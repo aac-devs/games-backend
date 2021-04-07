@@ -5,5 +5,13 @@ require("dotenv").config({
 });
 const Server = require("./server");
 
+console.log(process.env.NODE_ENV);
+
+console.log("Entorno:");
+console.log("NODE_ENV", process.env.NODE_ENV);
+console.log("HOST:", process.env.HOST);
+console.log("PORT:", process.env.PORT);
+console.log("DB:", process.env.DATABASE_URL);
+
 const server = new Server();
 server.listen();
