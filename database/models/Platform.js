@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   Platform.init(
     {
       id: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         primaryKey: true,
         allowNull: false,
       },

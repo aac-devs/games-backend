@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const morgan = require("morgan");
 const { sequelize } = require("./database/db");
 
 class Server {
@@ -9,11 +10,12 @@ class Server {
     this.host = process.env.HOST;
     this.paths = {
       games: "/games",
-      detail: "/games/detail/:id",
+      populate: "/populate",
     };
 
     this.connectDB();
     this.middlewares();
+    this.routes();
   }
 
   async connectDB() {
@@ -27,11 +29,15 @@ class Server {
 
   middlewares() {
     this.app.use(cors());
+    this.app.use(morgan("dev"));
     this.app.use(express.json());
     this.app.use(express.static("public"));
   }
 
-  routes() {}
+  routes() {
+    this.app.use(this.paths.games, require("./routes/games.routes"));
+    this.app.use(this.paths.populate, require("./routes/populate.routes"));
+  }
 
   listen() {
     this.app.listen(this.port, () => {
