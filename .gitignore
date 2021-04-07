@@ -1,3 +1,6 @@
 /node_modules
 .vscode
-.env
+.env.development
+.env.production
+.env.testing
+notes.txt

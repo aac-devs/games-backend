@@ -1,10 +1,12 @@
 {
-  "name": "videogames-backend",
+  "name": "games-backend",
   "version": "1.0.0",
-  "description": "REST API for videogames-app",
+  "description": "REST API for games-app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "set NODE_ENV=testing&& node index.js",
+    "dev": "set NODE_ENV=development&& nodemon index.js",
+    "start": "set NODE_ENV=production&& node index.js"
   },
   "keywords": [],
   "author": "",
