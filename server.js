@@ -20,7 +20,7 @@ class Server {
 
   async connectDB() {
     try {
-      await sequelize.sync({ force: false });
+      await sequelize.sync({ force: true });
       console.log("Postgresql database online.");
     } catch (error) {
       console.log(error);
