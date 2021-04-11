@@ -1,5 +1,9 @@
 const axios = require("axios");
-const { game: Game, genre: Genre, platform: Platform } = require("../database/db");
+const {
+  game: Game,
+  genre: Genre,
+  platform: Platform,
+} = require("../database/db");
 const { Op } = require("sequelize");
 
 const filterIdNameFromObject = (originalArray, pltf = false) => {
@@ -13,10 +17,10 @@ const filterIdNameFromObject = (originalArray, pltf = false) => {
 
 const filterNameImageRatingGenresFromFetch = (games) => {
   return games.map((game) => {
-    const { id, name, rating, genres: gnrs } = game;
+    const { id, name, released, rating, genres: gnrs } = game;
     const image = game?.image || game.background_image;
     const genres = filterIdNameFromObject(gnrs);
-    return { id, name, image, rating, genres };
+    return { id, name, image, released, rating, genres };
   });
 };
 
