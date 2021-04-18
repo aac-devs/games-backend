@@ -41,7 +41,7 @@ const getDatafromApi = async (url) => {
 
 const searchFromApi = async (url, page, name) => {
   const { results, next, count } = await getDatafromApi(url);
-  const nextPage = next ? next.split("=")[2].split("&")[0] : "11";
+  const nextPage = next ? next.split("=")[2].split("&")[0] : "21";
   return {
     count,
     currentPage: page,
@@ -57,13 +57,13 @@ const searchFromDB = async (page, name) => {
   const data = await Game.findAll({
     where: { name: { [Op.iRegexp]: name ? `${name}` : "" } },
     include: [Genre],
-    offset: (page - 1) * 5,
-    limit: 5,
+    offset: (page - 1) * 10,
+    limit: 10,
   });
   return {
     count,
     currentPage: page,
-    nextPage: (page - 5) * 5 < count ? (page * 1 + 1).toString() : null,
+    nextPage: (page - 10) * 10 < count ? (page * 1 + 1).toString() : null,
     data: filterNameImageRatingGenresFromFetch(data),
   };
 };
