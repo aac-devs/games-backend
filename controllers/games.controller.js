@@ -34,13 +34,13 @@ module.exports = {
       if (gamesFromDBReaded < totalGamesFromDB) {
         dbGames = await searchFromDB(page, name);
         gamesToSend = [...dbGames.data];
-        gamesFromDBReaded = gamesFromDBReaded + 5;
+        gamesFromDBReaded = gamesFromDBReaded + 10;
       }
       pageSize = !dbGames?.data
-        ? (pageSize = 10)
-        : dbGames.data.length !== 5
-        ? (pageSize = 10 - dbGames.data.length)
-        : (pageSize = 5);
+        ? (pageSize = 20)
+        : dbGames.data.length !== 10
+        ? (pageSize = 20 - dbGames.data.length)
+        : (pageSize = 10);
 
       const url = `${api_rawg}/games?page=${page}&key=${api_key}&page_size=${pageSize}${
         name ? `&search=${name}` : ""
