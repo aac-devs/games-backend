@@ -1,10 +1,10 @@
-const axios = require("axios");
+const axios = require('axios');
+const { Op } = require('sequelize');
 const {
   game: Game,
   genre: Genre,
   platform: Platform,
-} = require("../database/db");
-const { Op } = require("sequelize");
+} = require('../database/db');
 
 const filterIdNameFromObject = (originalArray, pltf = false) => {
   return pltf
@@ -39,9 +39,9 @@ const getDatafromApi = async (url) => {
   }
 };
 
-const searchFromApi = async (url, page, name) => {
+const searchFromApi = async (url, page) => {
   const { results, next, count } = await getDatafromApi(url);
-  const nextPage = next ? next.split("=")[2].split("&")[0] : "21";
+  const nextPage = next ? next.split('=')[2].split('&')[0] : '21';
   return {
     count,
     currentPage: page,
@@ -52,10 +52,10 @@ const searchFromApi = async (url, page, name) => {
 
 const searchFromDB = async (page, name) => {
   const count = await Game.count({
-    where: { name: { [Op.iRegexp]: name ? `${name}` : "" } },
+    where: { name: { [Op.iRegexp]: name ? `${name}` : '' } },
   });
   const data = await Game.findAll({
-    where: { name: { [Op.iRegexp]: name ? `${name}` : "" } },
+    where: { name: { [Op.iRegexp]: name ? `${name}` : '' } },
     include: [Genre],
     offset: (page - 1) * 10,
     limit: 10,
@@ -70,7 +70,7 @@ const searchFromDB = async (page, name) => {
 
 const countGamesFromDB = async (name) => {
   const count = await Game.count({
-    where: { name: { [Op.iRegexp]: name ? `${name}` : "" } },
+    where: { name: { [Op.iRegexp]: name ? `${name}` : '' } },
   });
   return count;
 };
@@ -80,8 +80,8 @@ const getGameFromDatabase = async (id) => {
     const game = await Game.findOne({
       where: { id },
       include: [
-        { model: Genre, attributes: ["id", "name"] },
-        { model: Platform, attributes: ["id", "name"] },
+        { model: Genre, attributes: ['id', 'name'] },
+        { model: Platform, attributes: ['id', 'name'] },
       ],
     });
     const { genres: gnrs, platforms: plts, ...rest } = game.dataValues;
@@ -120,9 +120,11 @@ const getGameFromApi = async (id, url) => {
 };
 
 const returnGenresPlatforms = async (type) => {
-  return type === "genres"
-    ? await Genre.findAndCountAll()
-    : await Platform.findAndCountAll();
+  const result =
+    type === 'genres'
+      ? await Genre.findAndCountAll()
+      : await Platform.findAndCountAll();
+  return result;
 };
 
 module.exports = {

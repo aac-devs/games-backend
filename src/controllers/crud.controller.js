@@ -1,10 +1,10 @@
-const { v4: uuidv4 } = require("uuid");
-const { request, response } = require("express");
+const { v4: uuidv4 } = require('uuid');
+const { request, response } = require('express');
 const {
   game: Game,
   genre: Genre,
   platform: Platform,
-} = require("../database/db");
+} = require('../database/db');
 
 module.exports = {
   create: async (req = request, res = response, next) => {
@@ -24,7 +24,7 @@ module.exports = {
       res.json({
         ok: true,
         id,
-        msg: "Videogame created successfully!",
+        msg: 'Videogame created successfully!',
       });
     } catch (error) {
       next(error.message);
@@ -44,18 +44,18 @@ module.exports = {
         genres.map(async (g) => {
           const gnr = await Genre.findByPk(g.id);
           newGame.addGenre(gnr);
-        })
+        }),
       );
       await Promise.all(
         platforms.map(async (p) => {
           const plt = await Platform.findByPk(p.id);
           newGame.addPlatform(plt);
-        })
+        }),
       );
       res.json({
         ok: true,
         id,
-        msg: "Videogame updated successfully!",
+        msg: 'Videogame updated successfully!',
       });
     } catch (error) {
       next(error.message);
@@ -67,7 +67,7 @@ module.exports = {
       await Game.destroy({ where: { id } });
       res.json({
         ok: true,
-        msg: "Videogame deleted successfully",
+        msg: 'Videogame deleted successfully',
       });
     } catch (error) {
       next(error.message);

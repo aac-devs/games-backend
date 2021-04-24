@@ -1,4 +1,4 @@
-const { response, request } = require("express");
+const { response, request } = require('express');
 
 const {
   searchFromApi,
@@ -7,20 +7,21 @@ const {
   getGameFromApi,
   returnGenresPlatforms,
   countGamesFromDB,
-} = require("../helpers/games-controller");
-const api_rawg = process.env.API_RAWG;
-const api_key = process.env.API_KEY_RAWG;
+} = require('../helpers/games-controller');
 
-let page = 1,
-  pageSize = 0,
-  totalGamesFromDB = 0,
-  gamesFromDBReaded = 0;
+const apiRawg = process.env.API_RAWG;
+const apiKey = process.env.API_KEY_RAWG;
+
+let page = 1;
+let pageSize = 0;
+let totalGamesFromDB = 0;
+let gamesFromDBReaded = 0;
 
 module.exports = {
   search: async (req = request, res = response, next) => {
     try {
       const { name, page: queryPage } = req.query;
-      if (queryPage === "1") {
+      if (queryPage === '1') {
         page = 1;
         pageSize = 0;
         totalGamesFromDB = 0;
@@ -34,23 +35,23 @@ module.exports = {
       if (gamesFromDBReaded < totalGamesFromDB) {
         dbGames = await searchFromDB(page, name);
         gamesToSend = [...dbGames.data];
-        gamesFromDBReaded = gamesFromDBReaded + 10;
+        gamesFromDBReaded += 10;
       }
-      pageSize = !dbGames?.data
-        ? (pageSize = 20)
-        : dbGames.data.length !== 10
-        ? (pageSize = 20 - dbGames.data.length)
-        : (pageSize = 10);
+      if (dbGames?.data) {
+        pageSize = dbGames.data.length !== 10 ? 20 - dbGames.data.length : 10;
+      } else {
+        pageSize = 20;
+      }
 
-      const url = `${api_rawg}/games?page=${page}&key=${api_key}&page_size=${pageSize}${
-        name ? `&search=${name}` : ""
+      const url = `${apiRawg}/games?page=${page}&key=${apiKey}&page_size=${pageSize}${
+        name ? `&search=${name}` : ''
       }`;
       const { count, currentPage, nextPage, data } = await searchFromApi(
         url,
         page,
-        name
+        name,
       );
-      page++;
+      page += 1;
       gamesToSend = [...gamesToSend, ...data];
       return res.json({
         ok: true,
@@ -60,7 +61,7 @@ module.exports = {
         data: gamesToSend,
       });
     } catch (error) {
-      next(error.message);
+      return next(error.message);
     }
   },
 
@@ -68,10 +69,10 @@ module.exports = {
     try {
       let data = {};
       const { id } = req.params;
-      if (id.startsWith("own")) {
+      if (id.startsWith('own')) {
         data = await getGameFromDatabase(id);
       } else {
-        const url = `${api_rawg}/games/${id}?key=${api_key}`;
+        const url = `${apiRawg}/games/${id}?key=${apiKey}`;
         data = await getGameFromApi(id, url);
       }
       res.json({
@@ -84,7 +85,7 @@ module.exports = {
   },
   genres: async (req, res = response, next) => {
     try {
-      const { count, rows: results } = await returnGenresPlatforms("genres");
+      const { count, rows: results } = await returnGenresPlatforms('genres');
       res.json({
         ok: true,
         count,
@@ -96,7 +97,7 @@ module.exports = {
   },
   platforms: async (req, res = response, next) => {
     try {
-      const { count, rows: results } = await returnGenresPlatforms("platforms");
+      const { count, rows: results } = await returnGenresPlatforms('platforms');
       res.json({
         ok: true,
         count,

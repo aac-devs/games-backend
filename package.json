@@ -4,9 +4,11 @@
   "description": "REST API for games-app",
   "main": "index.js",
   "scripts": {
-    "test": "set NODE_ENV=testing&& node index.js",
-    "dev": "set NODE_ENV=development&& nodemon index.js",
-    "start": "set NODE_ENV=production&& node index.js"
+    "test": "set NODE_ENV=testing&& node src/index.js",
+    "dev": "set NODE_ENV=development&& nodemon src/index.js",
+    "start": "set NODE_ENV=production&& node src/index.js",
+    "lint": "eslint src/",
+    "lint-fix": "eslint src/ --fix"
   },
   "keywords": [],
   "author": "",
@@ -21,5 +23,13 @@
     "pg-hstore": "^2.3.3",
     "sequelize": "^6.6.2",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.24.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.2.1"
   }
 }

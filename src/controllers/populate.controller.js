@@ -1,11 +1,12 @@
-const axios = require("axios");
-const { response } = require("express");
-const { genre: Genre, platform: Platform } = require("../database/db");
-const api_rawg = process.env.API_RAWG;
-const api_key = process.env.API_KEY_RAWG;
+const axios = require('axios');
+const { response } = require('express');
+const { genre: Genre, platform: Platform } = require('../database/db');
+
+const apiRawg = process.env.API_RAWG;
+const apiKey = process.env.API_KEY_RAWG;
 
 const populateGenres = async () => {
-  let url = `${api_rawg}/genres?key=${api_key}`;
+  const url = `${apiRawg}/genres?key=${apiKey}`;
   const {
     data: { results },
   } = await axios.get(url);
@@ -17,7 +18,7 @@ const populateGenres = async () => {
 };
 
 const populatePlatforms = async () => {
-  let url = `${api_rawg}/platforms/lists/parents?key=${api_key}`;
+  const url = `${apiRawg}/platforms/lists/parents?key=${apiKey}`;
   const {
     data: { results },
   } = await axios.get(url);
@@ -32,7 +33,7 @@ const populateDatabase = async (req, res = response) => {
   try {
     await populateGenres();
     await populatePlatforms();
-    const msg = "Database populated succesfully";
+    const msg = 'Database populated succesfully';
     return res.status(202).json({
       ok: true,
       msg,

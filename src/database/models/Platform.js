@@ -1,9 +1,9 @@
-"use strict";
-const { Model } = require("sequelize");
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Platform extends Model {
     static associate(models) {
-      this.belongsToMany(models.game, { through: "game_platform" });
+      this.belongsToMany(models.game, { through: 'game_platform' });
     }
   }
   Platform.init(
@@ -20,8 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "platform",
-    }
+      modelName: 'platform',
+    },
   );
   return Platform;
 };

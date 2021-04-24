@@ -1,27 +1,27 @@
-const { request } = require("express");
-const { game: Game } = require("../database/db");
+const { request } = require('express');
+const { game: Game } = require('../database/db');
 
 module.exports = {
   hasName: (req = request, res, next) => {
     try {
       const { name } = req.body;
       if (!name) {
-        throw new Error("Name is required!");
+        throw new Error('Name is required!');
       }
-      next();
+      return next();
     } catch (error) {
-      return res.status("500").json(error.message);
+      return res.status('500').json(error.message);
     }
   },
   hasRating: (req = request, res, next) => {
     try {
       const { rating } = req.body;
       if (!rating) {
-        throw new Error("Rating is required!");
+        throw new Error('Rating is required!');
       }
-      next();
+      return next();
     } catch (error) {
-      return res.status("500").json(error.message);
+      return res.status('500').json(error.message);
     }
   },
   existId: async (req = request, res, next) => {
@@ -31,9 +31,9 @@ module.exports = {
       if (!game) {
         throw new Error(`Game Id doesn't exist in database!`);
       }
-      next();
+      return next();
     } catch (error) {
-      return res.status("500").json(error.message);
+      return res.status('500').json(error.message);
     }
   },
 };
