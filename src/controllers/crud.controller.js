@@ -67,7 +67,7 @@ module.exports = {
       await Game.destroy({ where: { id } });
       res.json({
         ok: true,
-        msg: 'Videogame deleted successfully',
+        msg: 'Videogame deleted successfully!',
       });
     } catch (error) {
       next(error.message);

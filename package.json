@@ -4,7 +4,7 @@
   "description": "REST API for games-app",
   "main": "index.js",
   "scripts": {
-    "test": "set NODE_ENV=testing&& node src/index.js",
+    "test": "set NODE_ENV=testing&& nodemon src/index.js",
     "dev": "set NODE_ENV=development&& nodemon src/index.js",
     "start": "set NODE_ENV=production&& node src/index.js",
     "lint": "eslint src/",
